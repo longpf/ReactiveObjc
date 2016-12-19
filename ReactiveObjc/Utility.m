@@ -22,7 +22,12 @@ inline void func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue,id 
             }
             break;
         case 3:
-            
+            if (hasReturnValue) {
+                
+            }else{
+                void (*func) (id target,SEL sel, ...) = (void *)imp;
+                func(target,sel,args[1],args[2]);
+            }
             break;
         case 4:
             

@@ -16,7 +16,7 @@
 
 + (void)load
 {
-    Method instace_method = class_getInstanceMethod(self, @selector(v_instance_method:));
+    Method instace_method = class_getInstanceMethod(self, @selector(v_instance_assign:size:));
     Method class_method = class_getClassMethod(self, @selector(v_instance_method:));
     
     Method method = NULL;
@@ -81,7 +81,7 @@
             
             if (!hasReturnValue) {
                 
-                func(firstParam, @selector(v_instance_method:), imp, args, NO, nil);
+                func(firstParam, @selector(v_instance_assign:size:), imp, args, NO, nil);
                 
             }else{
                 
@@ -122,6 +122,9 @@
     
 }
 
-
+- (void)v_instance_assign:(int)intparam size:(CGSize)size
+{
+    
+}
 
 @end

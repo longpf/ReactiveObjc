@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface Objc_test : NSObject
 
 - (void)v_instance_method:(id)para;
 - (void)v_instance_method:(id)para p1:(id)p1;
-
 - (id)instacen_method:(id)p;
-
 + (void)class_method:(id)p;
 
+- (void)v_instance_assign:(int)intparam size:(CGSize)size;
 
 @end

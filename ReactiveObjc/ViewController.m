@@ -22,11 +22,20 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.objc = [Objc_test new];
+    
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (IBAction)buttonAction:(id)sender {
 
-    [self.objc v_instance_method:@"data"];
+//    [self.objc v_instance_method:@"data"];
+    
+    [self.objc v_instance_assign:66 size:CGSizeMake(30, 30)];
 
 }
 
