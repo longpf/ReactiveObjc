@@ -24,7 +24,7 @@
     
     self.objc = [Objc_test new];
     
-    [self.objc addObserver:self forSelector:@selector(v_instance_assign:size:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
+    [self.objc addObserver:self forSelector:@selector(instance_method:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
         
         NSLog(@"observedObject = %@",observedObject);
         NSLog(@"sel = %@",NSStringFromSelector(sel));
@@ -44,8 +44,9 @@
 
     
     
-    [self.objc v_instance_assign:66 size:CGSizeMake(30, 30)];
+//    [self.objc v_instance_assign:66 size:CGSizeMake(30, 30)];
     
+    [self.objc instance_method:self.view.bounds];
     
     
     

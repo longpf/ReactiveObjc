@@ -18,4 +18,6 @@
 
 - (void)v_instance_assign:(int)intparam size:(CGSize)size;
 
+- (NSString *)instance_method:(CGRect)rect;
+
 @end

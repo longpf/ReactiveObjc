@@ -101,7 +101,7 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
         } \
     } while (0);
                 
-                for (int i = 2; counter --; i++) {
+                for (int i = 2; counter -- >= 0; i++) {
                     
                     char argType[512] = {};
                     method_getArgumentType(method, i, argType, 512);
@@ -145,7 +145,7 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
                         ARGUMENT_VALUE_TYPE(argType,CGPoint);
                     }else if (strcmp(argType, @encode(CGSize)) == 0) {
                         ARGUMENT_VALUE_TYPE(argType,CGSize);
-                    }else if (strcmp(argType, @encode(CGRect))){
+                    }else if (strcmp(argType, @encode(CGRect)) == 0){
                         ARGUMENT_VALUE_TYPE(argType,CGRect);
                     }
                     else if (strcmp(argType, @encode(UIEdgeInsets)) == 0) {
@@ -164,13 +164,15 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
                 va_end(arguments);
             }
             
+            id returnValue = nil;
+            
             if (!hasReturnValue) {
                 
-                func(target, sselector, imp, args, NO, nil);
+                func(target, sselector, imp, args, NO);
                 
             }else{
                 
-                
+                returnValue = func(target, sselector, imp, args, YES);
                 
             }
             
@@ -182,6 +184,8 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
                     });
                 }
             }
+            
+            return returnValue;
             
         }), types);
     }

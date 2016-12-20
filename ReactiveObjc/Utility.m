@@ -10,12 +10,13 @@
 
 @implementation Utility
 
-inline void func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue,id returnValu){
+inline id func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue){
     
     switch (args.count) {
         case 2:
             if (hasReturnValue) {
-                
+                id (*func) (id target,SEL sel, ...) = (void *)imp;
+                return func(target,sel,args[1]);
             }else{
                 void (*func) (id target,SEL sel, ...) = (void *)imp;
                 func(target,sel,args[1]);
@@ -64,7 +65,7 @@ inline void func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue,id 
     
     
     
-    
+    return nil;
     
     
 };

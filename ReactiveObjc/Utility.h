@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern inline void func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue,id returnValu);
+id func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue);
 
 
 @interface Utility : NSObject

@@ -206,4 +206,10 @@
     
 }
 
+- (NSString *)instance_method:(CGRect)rect
+{
+    
+    return @"sss";
+}
+
 @end
