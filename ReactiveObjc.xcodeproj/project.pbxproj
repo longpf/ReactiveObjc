@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D37592C01E08D6B300318CF8 /* NSObject+test.m in Sources */ = {isa = PBXBuildFile; fileRef = D37592BF1E08D6B300318CF8 /* NSObject+test.m */; };
 		D398CE261E039EF300731CA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE251E039EF300731CA5 /* main.m */; };
 		D398CE291E039EF300731CA5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE281E039EF300731CA5 /* AppDelegate.m */; };
 		D398CE2C1E039EF300731CA5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE2B1E039EF300731CA5 /* ViewController.m */; };
@@ -15,8 +16,9 @@
 		D398CE341E039EF300731CA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D398CE321E039EF300731CA5 /* LaunchScreen.storyboard */; };
 		D398CE3F1E039EF300731CA5 /* ReactiveObjcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE3E1E039EF300731CA5 /* ReactiveObjcTests.m */; };
 		D398CE4A1E039EF300731CA5 /* ReactiveObjcUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE491E039EF300731CA5 /* ReactiveObjcUITests.m */; };
-		D398CE591E03B21B00731CA5 /* Objc_test.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE581E03B21B00731CA5 /* Objc_test.m */; };
+		D398CE591E03B21B00731CA5 /* Objc_test.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE581E03B21B00731CA5 /* Objc_test.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D398CE5C1E03B2BF00731CA5 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE5B1E03B2BF00731CA5 /* Utility.m */; };
+		D398CE9E1E07A9F100731CA5 /* NSObject+SRACObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = D398CE9D1E07A9F100731CA5 /* NSObject+SRACObserver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D37592BE1E08D6B300318CF8 /* NSObject+test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+test.h"; sourceTree = "<group>"; };
+		D37592BF1E08D6B300318CF8 /* NSObject+test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+test.m"; sourceTree = "<group>"; };
 		D398CE211E039EF300731CA5 /* ReactiveObjc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactiveObjc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D398CE251E039EF300731CA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D398CE271E039EF300731CA5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,6 +61,8 @@
 		D398CE581E03B21B00731CA5 /* Objc_test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Objc_test.m; sourceTree = "<group>"; };
 		D398CE5A1E03B2BF00731CA5 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		D398CE5B1E03B2BF00731CA5 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		D398CE9C1E07A9F100731CA5 /* NSObject+SRACObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SRACObserver.h"; sourceTree = "<group>"; };
+		D398CE9D1E07A9F100731CA5 /* NSObject+SRACObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SRACObserver.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +117,12 @@
 				D398CE281E039EF300731CA5 /* AppDelegate.m */,
 				D398CE2A1E039EF300731CA5 /* ViewController.h */,
 				D398CE2B1E039EF300731CA5 /* ViewController.m */,
+				D398CE9C1E07A9F100731CA5 /* NSObject+SRACObserver.h */,
+				D398CE9D1E07A9F100731CA5 /* NSObject+SRACObserver.m */,
 				D398CE571E03B21B00731CA5 /* Objc_test.h */,
 				D398CE581E03B21B00731CA5 /* Objc_test.m */,
+				D37592BE1E08D6B300318CF8 /* NSObject+test.h */,
+				D37592BF1E08D6B300318CF8 /* NSObject+test.m */,
 				D398CE5A1E03B2BF00731CA5 /* Utility.h */,
 				D398CE5B1E03B2BF00731CA5 /* Utility.m */,
 				D398CE2D1E039EF300731CA5 /* Main.storyboard */,
@@ -283,7 +293,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D398CE9E1E07A9F100731CA5 /* NSObject+SRACObserver.m in Sources */,
 				D398CE2C1E039EF300731CA5 /* ViewController.m in Sources */,
+				D37592C01E08D6B300318CF8 /* NSObject+test.m in Sources */,
 				D398CE291E039EF300731CA5 /* AppDelegate.m in Sources */,
 				D398CE5C1E03B2BF00731CA5 /* Utility.m in Sources */,
 				D398CE261E039EF300731CA5 /* main.m in Sources */,
@@ -517,6 +529,7 @@
 				D398CE501E039EF300731CA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D398CE511E039EF300731CA5 /* Build configuration list for PBXNativeTarget "ReactiveObjcTests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +538,7 @@
 				D398CE531E039EF300731CA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D398CE541E039EF300731CA5 /* Build configuration list for PBXNativeTarget "ReactiveObjcUITests" */ = {
 			isa = XCConfigurationList;
@@ -533,6 +547,7 @@
 				D398CE561E039EF300731CA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
