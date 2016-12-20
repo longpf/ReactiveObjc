@@ -8,8 +8,11 @@
 
 #import "NSObject+SRACObserver.h"
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import <objc/message.h>
+
+#import "Utility.h"
 
 NSString *const kSRACClassPrefix = @"SRACNotifying_";
 
@@ -28,6 +31,7 @@ NSString *const kSRACClassPrefix = @"SRACNotifying_";
         return;
     }
     
+    __block IMP imp = method_getImplementation(method);
     Class clazz = object_getClass(self);
     NSString *clazzName = NSStringFromClass(clazz);
     
@@ -39,8 +43,140 @@ NSString *const kSRACClassPrefix = @"SRACNotifying_";
     
     //查看生成的中间类是否有要监听的方法
     if (![self hasSelector:selector]) {
+        
+        //返回类型
+        char returnType[512] = {};
+        method_getReturnType(method, returnType, 512);
+        
+        //判断是否有返回值
+        __block BOOL hasReturnValue = strcmp(returnType, @encode(void)) != 0;
+        
+        //获取method参数个数
+        __block int numberOfArgs = method_getNumberOfArguments(method);
+        
         const char *types = method_getTypeEncoding(method);
-//        class_addMethod(clazz, selector, imp_implementationWithBlock(), types);
+        __block typeof(selector) sselector = selector;
+        
+        class_addMethod(clazz, selector, imp_implementationWithBlock(^(id target, ...){
+            
+            
+            //计数用，否则va_list 若传过来的不含有nil，则越界
+            int counter = numberOfArgs - 1;
+            
+            //把参数都存到数组里面
+            NSMutableArray *args = [NSMutableArray array];
+            
+            va_list arguments;
+            
+            if (target) {
+                
+                [args addObject:target];
+                counter --;
+                va_start(arguments, target);
+                
+                
+#define ARGUMENT_NUMBER_TYPE(type)    \
+do { \
+type val = 0; \
+val = va_arg(arguments,type); \
+[args addObject:@(val)]; \
+} while (0)
+                
+#define ARGUMENT_VALUE_TYPE(type,actualType)      \
+do { \
+actualType val; \
+val = va_arg(arguments,actualType); \
+NSValue *value = [NSValue value:&val withObjCType:type]; \
+if (value) {\
+[args addObject:value]; \
+} \
+} while (0);
+                
+                for (int i = 2; counter --; i++) {
+                    
+                    char argType[512] = {};
+                    method_getArgumentType(method, i, argType, 512);
+                    
+                    if (strcmp(argType, @encode(id)) == 0 || strcmp(argType, @encode(Class)) == 0) {
+                        id arg = va_arg(arguments, id);
+                        [args addObject:arg];
+                    } else if (strcmp(argType, @encode(char)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(int)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(short)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(long)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(long);
+                    } else if (strcmp(argType, @encode(long long)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(long long);
+                    } else if (strcmp(argType, @encode(unsigned char)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(unsigned int)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(unsigned int);
+                    } else if (strcmp(argType, @encode(unsigned short)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(unsigned long)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(unsigned long);
+                    } else if (strcmp(argType, @encode(unsigned long long)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(unsigned long long);
+                    } else if (strcmp(argType, @encode(float)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(double);
+                    } else if (strcmp(argType, @encode(double)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(double);
+                    } else if (strcmp(argType, @encode(BOOL)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(int);
+                    } else if (strcmp(argType, @encode(char *)) == 0) {
+                        ARGUMENT_NUMBER_TYPE(const char *);
+                    } else if (strcmp(argType, @encode(void (^)(void))) == 0) {
+                        __unsafe_unretained id block = nil;
+                        block = va_arg(arguments, id);
+                        [args addObject:[block copy]];
+                    }else if (strcmp(argType, @encode(CGPoint)) == 0) {
+                        ARGUMENT_VALUE_TYPE(argType,CGPoint);
+                    }else if (strcmp(argType, @encode(CGSize)) == 0) {
+                        ARGUMENT_VALUE_TYPE(argType,CGSize);
+                    }else if (strcmp(argType, @encode(CGRect))){
+                        ARGUMENT_VALUE_TYPE(argType,CGRect);
+                    }
+                    else if (strcmp(argType, @encode(UIEdgeInsets)) == 0) {
+                        ARGUMENT_VALUE_TYPE(argType,UIEdgeInsets);
+                    }
+                    
+                    
+                }
+#undef ARGUMENT_VALUE_TYPE
+                
+#undef ARGUMENT_NUMBER_TYPE
+                
+                
+                
+                
+                va_end(arguments);
+            }
+            
+            if (!hasReturnValue) {
+                
+                func(target, sselector, imp, args, NO, nil);
+                
+            }else{
+                
+                
+                
+            }
+            
+            
+            
+            
+            for (int i = 0; i < args.count; i++) {
+                NSLog(@"%@",args[i]);
+            }
+
+            
+            
+            
+            
+        }), types);
     }
     
 }

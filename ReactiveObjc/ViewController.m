@@ -32,11 +32,10 @@
 }
 
 - (IBAction)buttonAction:(id)sender {
-//    [self.objc v_instance_method:@"data"];
-    [self.objc v_instance_assign:66 size:CGSizeMake(30, 30)];
 
     
     
+    [self.objc v_instance_assign:66 size:CGSizeMake(30, 30)];
     
     
     

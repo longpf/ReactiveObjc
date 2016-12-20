@@ -15,7 +15,7 @@
 
 @implementation Objc_test
 
-
+/*
 + (void)load
 {
     Method instace_method = class_getInstanceMethod(self, @selector(v_instance_assign:size:));
@@ -39,6 +39,7 @@
         NSLog(@"error 方法不存在");
         
     }
+    
     
     if (imp) {
         
@@ -69,7 +70,6 @@
                 [args addObject:firstArgument];
                 counter --;
                 va_start(arguments, firstArgument);
-                
 
 #define ARGUMENT_NUMBER_TYPE(type)    \
     do { \
@@ -174,7 +174,11 @@
         
         
     }
+    
 }
+
+*/
+
 
 - (void)v_instance_method:(id)para
 {
