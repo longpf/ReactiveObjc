@@ -32,6 +32,12 @@
         
     }];
     
+    [self.objc addObserver:self forSelector:@selector(setString:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
+        NSLog(@"observedObject = %@",observedObject);
+        NSLog(@"sel = %@",NSStringFromSelector(sel));
+        NSLog(@"arguments = %@",arguments);
+    }];
+    
     
 }
 
@@ -48,7 +54,13 @@
     
     [self.objc instance_method:self.view.bounds];
     
-    
+    NSArray *strings = @[
+                         @"aaaa",
+                         @"bbbb",
+                         @"cccc",
+                         @"dddd"
+                         ];
+    self.objc.string = strings[arc4random()%strings.count];
     
 }
 

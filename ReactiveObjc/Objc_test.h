@@ -11,6 +11,8 @@
 
 @interface Objc_test : NSObject
 
+@property (nonatomic, strong) NSString *string;
+
 - (void)v_instance_method:(id)para;
 - (void)v_instance_method:(id)para p1:(id)p1;
 - (id)instacen_method:(id)p;
