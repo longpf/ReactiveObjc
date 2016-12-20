@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "Objc_test.h"
+#import "NSObject+SRACObserver.h"
 
 @interface ViewController ()
 
@@ -22,6 +23,14 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.objc = [Objc_test new];
+    
+    [self.objc addObserver:self forSelector:@selector(v_instance_assign:size:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
+        
+        NSLog(@"observedObject = %@",observedObject);
+        NSLog(@"sel = %@",NSStringFromSelector(sel));
+        NSLog(@"arguments = %@",arguments);
+        
+    }];
     
     
 }

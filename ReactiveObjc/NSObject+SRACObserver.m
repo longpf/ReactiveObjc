@@ -7,18 +7,27 @@
 //
 
 #import "NSObject+SRACObserver.h"
-
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-
 #import "Utility.h"
 
-NSString *const kSRACClassPrefix = @"SRACNotifying_";
+static NSString *const kSRACClassPrefix = @"SRACNotifying_";
+static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
+
+@interface SRACObservationInfo : NSObject
+
+@property (nonatomic, assign) NSObject *observer;
+@property (nonatomic) SEL sel;
+@property (nonatomic, copy) SRACObservingBlock block;
+
+- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(SRACObservingBlock)block;
+
+@end
 
 @implementation NSObject (SRACObserver)
 
-- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(id)block
+#pragma mark - interface methods
+
+- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(SRACObservingBlock)block
 {
     
     Method method = class_getInstanceMethod([self class], selector);
@@ -64,7 +73,7 @@ NSString *const kSRACClassPrefix = @"SRACNotifying_";
             int counter = numberOfArgs - 1;
             
             //把参数都存到数组里面
-            NSMutableArray *args = [NSMutableArray array];
+            __autoreleasing NSMutableArray *args = [NSMutableArray array];
             
             va_list arguments;
             
@@ -165,24 +174,31 @@ NSString *const kSRACClassPrefix = @"SRACNotifying_";
                 
             }
             
-            
-            
-            
-            for (int i = 0; i < args.count; i++) {
-                NSLog(@"%@",args[i]);
+            NSMutableArray *observers = objc_getAssociatedObject(self, kSRACAssociatedObserversKey);
+            for (SRACObservationInfo *info in observers) {
+                if (sel_isEqual(info.sel, sselector)) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        info.block(info.observer,info.sel,args);
+                    });
+                }
             }
-
-            
-            
-            
             
         }), types);
     }
     
+    //将observer信息存起来
+    SRACObservationInfo *info = [[SRACObservationInfo alloc] initWithObserver:observer sel:selector block:block];
+    NSMutableArray *observers = objc_getAssociatedObject(self, kSRACAssociatedObserversKey);
+    if (!observers) {
+        observers = [NSMutableArray array];
+        objc_setAssociatedObject(self, kSRACAssociatedObserversKey, observers, OBJC_ASSOCIATION_RETAIN);
+    }
+    [observers addObject:info];
+
 }
 
 
-
+#pragma mark - tool
 
 
 - (Class)makeSRACClassWithOriginalClassName:(NSString *)originalClassName
@@ -231,6 +247,34 @@ NSString *const kSRACClassPrefix = @"SRACNotifying_";
     return NO;
 }
 
+@end
 
+
+
+@implementation SRACObservationInfo
+
+
+- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(SRACObservingBlock)block
+{
+    if (self = [super init]) {
+        _observer = observer;
+        _sel = sel;
+        _block = block;
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    if (_observer) {
+        [_observer release];
+    }
+    if (_block) {
+        [_block release];
+    }
+    [super dealloc];
+}
 
 @end
+
+
