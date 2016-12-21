@@ -24,19 +24,18 @@
     
     self.objc = [Objc_test new];
     
-    [self.objc addObserver:self forSelector:@selector(instance_method:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
+    [self.objc addObserver:self forSelector:@selector(instance_method:) withBlock:^(SRACObservationInfo *info,NSValue *rectValue) {
         
-        NSLog(@"observedObject = %@",observedObject);
-        NSLog(@"sel = %@",NSStringFromSelector(sel));
-        NSLog(@"arguments = %@",arguments);
+        NSLog(@"info = %@",info);
+        NSLog(@"rectValue = %@",rectValue);
         
     }];
     
-    [self.objc addObserver:self forSelector:@selector(setString:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
-        NSLog(@"observedObject = %@",observedObject);
-        NSLog(@"sel = %@",NSStringFromSelector(sel));
-        NSLog(@"arguments = %@",arguments);
-    }];
+//    [self.objc addObserver:self forSelector:@selector(setString:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
+//        NSLog(@"observedObject = %@",observedObject);
+//        NSLog(@"sel = %@",NSStringFromSelector(sel));
+//        NSLog(@"arguments = %@",arguments);
+//    }];
     
     
 }

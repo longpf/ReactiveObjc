@@ -9,11 +9,21 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef void(^SRACObservingBlock)(id observedObject,SEL sel, NSArray *arguments);
+@interface SRACObservationInfo : NSObject
+
+@property (nonatomic, assign) NSObject *observer;
+@property (nonatomic) SEL sel;
+@property (nonatomic, copy) id block;
+@property (nonatomic, copy) NSArray *arguments;
+
+- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(id)block;
+
+@end
+
 
 @interface NSObject (SRACObserver)
 
-- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(SRACObservingBlock)block;
+- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(id)block;
 
 
 @end

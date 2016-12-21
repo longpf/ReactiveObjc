@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SRACObservationInfo;
 
 /**
  将IMP转换换成对应的参数个数的方法并执行
@@ -20,7 +21,9 @@
 
  @return 原方法如果有返回值 则返回对应值
  */
-id func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue);
+id srac_func(id target,SEL sel,IMP imp,NSArray *args,BOOL hasReturnValue);
+
+void srac_block(id block,SRACObservationInfo *info);
 
 
 @interface Utility : NSObject

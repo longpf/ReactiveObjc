@@ -13,21 +13,14 @@
 static NSString *const kSRACClassPrefix = @"SRACNotifying_";
 static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
 
-@interface SRACObservationInfo : NSObject
 
-@property (nonatomic, assign) NSObject *observer;
-@property (nonatomic) SEL sel;
-@property (nonatomic, copy) SRACObservingBlock block;
-
-- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(SRACObservingBlock)block;
-
-@end
 
 @implementation NSObject (SRACObserver)
 
+
 #pragma mark - interface methods
 
-- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(SRACObservingBlock)block
+- (void)addObserver:(NSObject *)observer forSelector:(SEL)selector withBlock:(id)block
 {
     
     Method method = class_getInstanceMethod([self class], selector);
@@ -168,19 +161,20 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
             
             if (!hasReturnValue) {
                 
-                func(target, sselector, imp, args, NO);
+                srac_func(target, sselector, imp, args, NO);
                 
             }else{
                 
-                returnValue = func(target, sselector, imp, args, YES);
+                returnValue = srac_func(target, sselector, imp, args, YES);
                 
             }
             
             NSMutableArray *observers = objc_getAssociatedObject(self, kSRACAssociatedObserversKey);
             for (SRACObservationInfo *info in observers) {
                 if (sel_isEqual(info.sel, sselector)) {
+                    info.arguments = args;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        info.block(info.observer,info.sel,args);
+                        srac_block(info.block, info);
                     });
                 }
             }
@@ -258,7 +252,7 @@ static NSString *const kSRACAssociatedObserversKey = @"SRACAssociatedObservers";
 @implementation SRACObservationInfo
 
 
-- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(SRACObservingBlock)block
+- (instancetype)initWithObserver:(NSObject *)observer sel:(SEL)sel block:(id)block
 {
     if (self = [super init]) {
         _observer = observer;
