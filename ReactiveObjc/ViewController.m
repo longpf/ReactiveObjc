@@ -31,6 +31,10 @@
         
     }];
     
+    
+    
+    
+    
 //    [self.objc addObserver:self forSelector:@selector(setString:) withBlock:^(id observedObject, SEL sel, NSArray *arguments) {
 //        NSLog(@"observedObject = %@",observedObject);
 //        NSLog(@"sel = %@",NSStringFromSelector(sel));
